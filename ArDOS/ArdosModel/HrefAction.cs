@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArdosModel
 {
-    class HrefAction : IAction
+    public class HrefAction : IAction
     {
         public string ActionType { get; } = "href".ToUpper();
 

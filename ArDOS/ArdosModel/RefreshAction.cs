@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArdosModel
 {
-    class RefreshAction : IAction
+    public class RefreshAction : IAction
     {
         public string ActionType { get; } = "refresh".ToUpper();
 

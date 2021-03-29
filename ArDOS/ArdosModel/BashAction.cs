@@ -33,7 +33,7 @@ namespace ArdosModel
         /// <param name="terminal">Whether or not to open a terminal window.</param>
         public BashAction(string command, string[] commandParams = null, bool terminal = false)
         {
-            commandParams = commandParams ?? new string[] { };
+            commandParams ??= Array.Empty<string>();
 
             Command = command;
             Params = commandParams.ToList();
