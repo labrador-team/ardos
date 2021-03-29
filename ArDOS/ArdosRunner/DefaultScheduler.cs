@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArdosRunner
+namespace ArDOS.Runner
 {
     public class DefaultScheduler : IScheduler
     {
