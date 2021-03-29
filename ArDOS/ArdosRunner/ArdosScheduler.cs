@@ -7,33 +7,40 @@ using System.Threading.Tasks;
 
 namespace ArdosRunner
 {
-    public class Scheduler : IDisposable
+    public class ArdosScheduler : IDisposable
     {
         public bool Active { get; private set; }
-        private Runner _runner;
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationToken _cancellationToken { get { return this._cancellationTokenSource.Token; } }
         private List<Task> _tasks;
 
-        public Scheduler(Runner runner)
+        public ArdosScheduler()
         {
             this.Active = true;
-            this._runner = runner;
             this._cancellationTokenSource = new CancellationTokenSource();
             this._tasks = new List<Task>();
         }
 
-        public void Run(string path)
+        public async void Run(string path)
         {
-            var task = this._runner.Run(path);
-            task.Start();
+            var task = ArdosRunner.Run(path);
             this._tasks.Add(task);
+            await task;
         }
 
         public void Schedule(string path, TimeSpan interval)
         {
             var task = Task.Run(() => this.RunPeriodically(path, interval), this._cancellationToken);
             this._tasks.Add(task);
+        }
+
+        private async void RunPeriodically(string path, TimeSpan interval)
+        {
+            while (this.Active)
+            {
+                await ArdosRunner.Run(path);
+                await Task.Delay(interval);
+            }
         }
 
         public void Deactivate()
@@ -44,15 +51,6 @@ namespace ArdosRunner
             foreach (var task in this._tasks)
                 task.Dispose();
             this._tasks.Clear();
-        }
-
-        private async void RunPeriodically(string path, TimeSpan interval)
-        {
-            while (this.Active)
-            {
-                await this._runner.Run(path);
-                await Task.Delay(interval);
-            }
         }
 
         public void Dispose()
