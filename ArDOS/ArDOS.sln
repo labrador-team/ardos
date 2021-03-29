@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdosUI", "ArdosUI\ArdosUI.csproj", "{96268C46-1631-4608-9599-15A6B26672A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArdosModel", "ArdosModel\ArdosModel.csproj", "{DA62D957-1B2E-4FB8-8AEA-E9FA12A29E6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdosModel", "ArdosModel\ArdosModel.csproj", "{DA62D957-1B2E-4FB8-8AEA-E9FA12A29E6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArdosRunner", "ArdosRunner\ArdosRunner.csproj", "{7501C6E5-F410-475E-9FB5-1990FD31A64F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdosRunner", "ArdosRunner\ArdosRunner.csproj", "{7501C6E5-F410-475E-9FB5-1990FD31A64F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArdosParser", "ArdosParser\ArdosParser.csproj", "{DAE039B0-9C52-4085-AB68-9EDD20DFA83C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdosParser", "ArdosParser\ArdosParser.csproj", "{DAE039B0-9C52-4085-AB68-9EDD20DFA83C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingApp", "TestingApp\TestingApp.csproj", "{D83F13DE-EA78-4AA8-96D4-624DB1EA8A55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DAE039B0-9C52-4085-AB68-9EDD20DFA83C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAE039B0-9C52-4085-AB68-9EDD20DFA83C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAE039B0-9C52-4085-AB68-9EDD20DFA83C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D83F13DE-EA78-4AA8-96D4-624DB1EA8A55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D83F13DE-EA78-4AA8-96D4-624DB1EA8A55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D83F13DE-EA78-4AA8-96D4-624DB1EA8A55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D83F13DE-EA78-4AA8-96D4-624DB1EA8A55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
