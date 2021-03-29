@@ -10,9 +10,9 @@ namespace ArdosRunner
     public class ArdosScheduler : IDisposable
     {
         public bool Active { get; private set; }
-        private CancellationTokenSource _cancellationTokenSource;
-        private CancellationToken _cancellationToken { get { return this._cancellationTokenSource.Token; } }
-        private List<Task> _tasks;
+        private readonly CancellationTokenSource _cancellationTokenSource;
+        private CancellationToken CancellationToken { get { return this._cancellationTokenSource.Token; } }
+        private readonly List<Task> _tasks;
 
         public ArdosScheduler()
         {
@@ -30,7 +30,7 @@ namespace ArdosRunner
 
         public void Schedule(string path, TimeSpan interval)
         {
-            var task = Task.Run(() => this.RunPeriodically(path, interval), this._cancellationToken);
+            var task = Task.Run(() => this.RunPeriodically(path, interval), this.CancellationToken);
             this._tasks.Add(task);
         }
 
@@ -47,7 +47,7 @@ namespace ArdosRunner
         {
             this.Active = false;
             this._cancellationTokenSource.Cancel();
-            Task.WaitAll(this._tasks.ToArray(), this._cancellationToken);
+            Task.WaitAll(this._tasks.ToArray(), this.CancellationToken);
             foreach (var task in this._tasks)
                 task.Dispose();
             this._tasks.Clear();
