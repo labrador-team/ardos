@@ -7,23 +7,25 @@ using System.Threading.Tasks;
 
 namespace ArdosRunner
 {
-    public class Scheduler : IDisposable
+    public class DefaultScheduler : IScheduler
     {
         public bool Active { get; private set; }
-        private readonly CancellationTokenSource _cancellationTokenSource;
-        private CancellationToken CancellationToken { get { return this._cancellationTokenSource.Token; } }
-        private readonly List<Task> _tasks;
+        public IRunner Runner { get; protected set; }
+        protected CancellationToken CancellationToken { get { return this._cancellationTokenSource.Token; } }
+        protected readonly CancellationTokenSource _cancellationTokenSource;
+        protected readonly List<Task> _tasks;
 
-        public Scheduler()
+        public DefaultScheduler(IRunner runner)
         {
             this.Active = true;
+            this.Runner = runner;
             this._cancellationTokenSource = new CancellationTokenSource();
             this._tasks = new List<Task>();
         }
 
         public async void Run(string path)
         {
-            var task = Runner.GetOutput(path);
+            var task = this.Runner.GetOutput(path);
             this._tasks.Add(task);
             await task;
         }
@@ -34,11 +36,11 @@ namespace ArdosRunner
             this._tasks.Add(task);
         }
 
-        private async void RunPeriodically(string path, TimeSpan interval)
+        protected async void RunPeriodically(string path, TimeSpan interval)
         {
             while (this.Active)
             {
-                await Runner.GetOutput(path);
+                await this.Runner.GetOutput(path);
                 await Task.Delay(interval);
             }
         }

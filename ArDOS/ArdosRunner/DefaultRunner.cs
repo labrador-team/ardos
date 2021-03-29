@@ -9,16 +9,22 @@ using System.Diagnostics;
 
 namespace ArdosRunner
 {
-    public static class Runner
+    public class DefaultRunner : IRunner
     {
-        public static event EventHandler<RunnerOutputEventArgs> OnOutputReady;
+        public event EventHandler<RunnerOutputEventArgs> OnOutputReady;
+        public Encoding OutputEncoding { get; protected set; }
 
-        public static Task GetOutput(string path)
+        public DefaultRunner(Encoding outputEncoding = null)
+        {
+            this.OutputEncoding = outputEncoding ?? Encoding.UTF8;
+        }
+
+        public Task GetOutput(string path)
         {
             return Task.Run(() => GetOutputAsync(path));
         }
 
-        private static async void GetOutputAsync(string path)
+        protected async void GetOutputAsync(string path)
         {
             // Find how to run the file, default to cmd "start"
             string executable = null;
@@ -36,7 +42,7 @@ namespace ArdosRunner
                 FileName = executable ?? path,
                 Arguments = executable.Equals(null) ? null : path,
                 RedirectStandardOutput = true,
-                StandardOutputEncoding = Encoding.UTF8,
+                StandardOutputEncoding = this.OutputEncoding,
                 UseShellExecute = false
             };
             string output;
