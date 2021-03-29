@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace ArdosRunner
 {
-    public class ArdosScheduler : IDisposable
+    public class Scheduler : IDisposable
     {
         public bool Active { get; private set; }
         private readonly CancellationTokenSource _cancellationTokenSource;
         private CancellationToken CancellationToken { get { return this._cancellationTokenSource.Token; } }
         private readonly List<Task> _tasks;
 
-        public ArdosScheduler()
+        public Scheduler()
         {
             this.Active = true;
             this._cancellationTokenSource = new CancellationTokenSource();
@@ -23,7 +23,7 @@ namespace ArdosRunner
 
         public async void Run(string path)
         {
-            var task = ArdosRunner.Run(path);
+            var task = Runner.GetOutput(path);
             this._tasks.Add(task);
             await task;
         }
@@ -38,7 +38,7 @@ namespace ArdosRunner
         {
             while (this.Active)
             {
-                await ArdosRunner.Run(path);
+                await Runner.GetOutput(path);
                 await Task.Delay(interval);
             }
         }
@@ -47,7 +47,7 @@ namespace ArdosRunner
         {
             this.Active = false;
             this._cancellationTokenSource.Cancel();
-            Task.WaitAll(this._tasks.ToArray(), this.CancellationToken);
+            Task.WaitAll(this._tasks.ToArray());
             foreach (var task in this._tasks)
                 task.Dispose();
             this._tasks.Clear();
