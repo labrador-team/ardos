@@ -1,5 +1,5 @@
 ﻿
-namespace ArdosUI
+namespace ArDOS.UI
 {
     partial class MainForm
     {
