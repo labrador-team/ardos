@@ -19,9 +19,7 @@ namespace ArdosModel
         public ArDOSSubMenu(ArDOSItem item, IArDOSItem[] menuItems = null)
         {
             Item = item;
-
-            menuItems ??= Array.Empty<IArDOSItem>();
-            MenuItems = menuItems;
+            MenuItems = menuItems ?? Array.Empty<IArDOSItem>();
         }
     }
 }

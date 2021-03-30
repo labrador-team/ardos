@@ -55,9 +55,7 @@ namespace ArdosModel
             Ansi = ansi;
             UseMarkup = useMarkup;
             Unescape = unescape;
-
-            actions ??= Array.Empty<IAction>();
-            Actions = actions;
+            Actions = actions ?? Array.Empty<IAction>();
         }
     }
 }

@@ -23,9 +23,7 @@ namespace ArdosModel
         {
             Name = name;
             Icon = icon;
-
-            menuItems ??= Array.Empty<IArDOSItem>();
-            MenuItems = menuItems;
+            MenuItems = menuItems ?? Array.Empty<IArDOSItem>();
         }
     }
 }
