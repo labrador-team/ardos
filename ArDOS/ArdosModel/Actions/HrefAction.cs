@@ -10,7 +10,7 @@ namespace ArdosModel
     {
         public string ActionType { get; } = "href".ToUpper();
 
-        public string Href { get; set; }
+        public string Href { get; private set; }
 
         /// <summary>
         /// Creates an instance of an HrefAction.

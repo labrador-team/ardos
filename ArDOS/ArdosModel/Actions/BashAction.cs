@@ -11,8 +11,8 @@ namespace ArdosModel
         public string ActionType { get; } = "bash".ToUpper();
 
         private string Command { get; set; }
-        private List<string> Params { get; set; }
-        public bool Terminal { get; set; }
+        private string[] Params { get; set; }
+        public bool Terminal { get; private set; }
 
         /// <summary>
         /// The full formatted command as a string.
@@ -33,10 +33,11 @@ namespace ArdosModel
         /// <param name="terminal">Whether or not to open a terminal window.</param>
         public BashAction(string command, string[] commandParams = null, bool terminal = false)
         {
-            commandParams ??= Array.Empty<string>();
-
             Command = command;
-            Params = commandParams.ToList();
+
+            commandParams ??= Array.Empty<string>();
+            Params = commandParams;
+
             Terminal = terminal;
         }
 
