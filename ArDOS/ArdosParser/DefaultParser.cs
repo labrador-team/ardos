@@ -12,7 +12,7 @@ namespace ArDOS.Parser
 {
     public partial class WindowsParser
     {
-        public const RegexOptions DEFAULT_RE_OPTS = RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace;
+        protected const RegexOptions DEFAULT_RE_OPTS = RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace;
         public static ArdosMenu Parse(string input)
         {
             var sections = Regex.Split(input, @"\n^-*$\n", DEFAULT_RE_OPTS).Select(x => x.Split(new [] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries)).ToArray();
@@ -49,7 +49,7 @@ namespace ArDOS.Parser
 
                     var submenuLines = lines[i].TrimStart()[2..];
                     while (++i < lines.Length && lines[i].TrimStart().StartsWith("--"))
-                        submenuLines += "\n" + lines[i].TrimStart()[2..];
+                        submenuLines += "\n" + lines[i].TrimStart()[2..].TrimStart(' ');
                     i--;
                     items[^1] = new ArdosSubMenu(items[^1], ParseSections(submenuLines));
                 }
