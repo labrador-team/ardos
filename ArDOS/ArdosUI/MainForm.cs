@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ArdosUI
+namespace ArDOS.UI
 {
     public partial class MainForm : Form
     {
