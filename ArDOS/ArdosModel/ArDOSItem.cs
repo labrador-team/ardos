@@ -44,18 +44,18 @@ namespace ArdosModel
             ArDOSItem alternative = null, bool emojize = true, bool ansi = true, bool useMarkup = true,
             bool unescape = true, IAction[] actions = null)
         {
-            Text = trim ? text.Trim() : text;
-            Color = (color == Color.Empty) ? Color.Black : color;
-            Font = font ?? new Font("Ariel", fontSize);
-            Image = image;
-            Length = length;
-            Dropdown = dropdown;
-            Alternative = alternative;
-            Emojize = emojize;
-            Ansi = ansi;
-            UseMarkup = useMarkup;
-            Unescape = unescape;
-            Actions = actions ?? Array.Empty<IAction>();
+            this.Text = trim ? text.Trim() : text;
+            this.Color = (color == Color.Empty) ? Color.Black : color;
+            this.Font = font ?? new Font("Ariel", fontSize);
+            this.Image = image;
+            this.Length = length;
+            this.Dropdown = dropdown;
+            this.Alternative = alternative;
+            this.Emojize = emojize;
+            this.Ansi = ansi;
+            this.UseMarkup = useMarkup;
+            this.Unescape = unescape;
+            this.Actions = actions ?? Array.Empty<IAction>();
         }
     }
 }

@@ -21,9 +21,9 @@ namespace ArdosModel
         /// <param name="menuItems">The items of the menu.</param>
         public ArDOSMenu(string name, Image icon, IArDOSItem[] menuItems = null)
         {
-            Name = name;
-            Icon = icon;
-            MenuItems = menuItems ?? Array.Empty<IArDOSItem>();
+            this.Name = name;
+            this.Icon = icon;
+            this.MenuItems = menuItems ?? Array.Empty<IArDOSItem>();
         }
     }
 }

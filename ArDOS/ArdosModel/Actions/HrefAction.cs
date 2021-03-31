@@ -18,7 +18,7 @@ namespace ArdosModel
         /// <param name="href">The href to open.</param>
         public HrefAction(string href)
         {
-            Href = href;
+            this.Href = href;
         }
 
         /// <summary>
