@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <AssemblyName>ArDOS.Parser</AssemblyName>
+    <RootNamespace>ArDOS.Parser</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ArdosModel\ArDOS.Model.csproj" />
+  </ItemGroup>
+
+</Project>
