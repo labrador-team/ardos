@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using ArDOS.Model.Actions;
 
 namespace ArDOS.Parser.Actions
@@ -11,7 +12,7 @@ namespace ArDOS.Parser.Actions
 
         public override void Run()
         {
-            throw new NotImplementedException();
+            Process.Start(this.URI.AbsoluteUri);
         }
     }
 }
