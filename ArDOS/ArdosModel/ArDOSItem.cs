@@ -41,7 +41,12 @@ namespace ArDOS.Model
         /// <summary>
         /// The alternative item to view
         /// </summary>
-        public ArdosItem Alternative { get; set; } = null;
+        public ArdosItem AlternativeItem { get; set; } = null;
+
+        /// <summary>
+        /// Whether this is an alternative item
+        /// </summary>
+        public bool Alternate { get; set; } = false;
 
         /// <summary>
         /// Whether to use emojis
@@ -62,6 +67,11 @@ namespace ArDOS.Model
         /// Whether to escape characters
         /// </summary>
         public bool Unescape { get; set; } = true;
+
+        /// <summary>
+        /// Whether to rerun the plugin when this item is clicked
+        /// </summary>
+        public bool Refresh { get; set; } = false;
 
         /// <summary>
         /// The actions to run when clicking on the item
