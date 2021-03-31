@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <OutputType>Library</OutputType>
+    <AssemblyName>ArDOS.Model</AssemblyName>
+    <RootNamespace>ArDOS.Model</RootNamespace>
+  </PropertyGroup>
+
+</Project>
