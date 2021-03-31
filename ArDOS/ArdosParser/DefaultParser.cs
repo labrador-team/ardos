@@ -48,7 +48,7 @@ namespace ArDOS.Parser
                     if (items.Count == 0) throw new ParsingException(i, "cannot find parent sub-menu");
 
                     var submenuLines = lines[i].TrimStart()[2..];
-                    while (lines[++i].TrimStart().StartsWith("--") && i < lines.Length)
+                    while (++i < lines.Length && lines[i].TrimStart().StartsWith("--"))
                         submenuLines += "\n" + lines[i].TrimStart()[2..];
                     i--;
                     items[^1] = new ArdosSubMenu(items[^1], ParseSections(submenuLines));
