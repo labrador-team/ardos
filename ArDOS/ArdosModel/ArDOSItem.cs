@@ -1,61 +1,81 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
-namespace ArdosModel
+namespace ArDOS.Model
 {
-    public class ArDOSItem : IArDOSItem
+    /// <summary>
+    /// A representation of a single ArDOS item
+    /// </summary>
+    public class ArdosItem
     {
-        public string Text { get; private set; }
-        public Color Color { get; private set; }
-        public Font Font { get; private set; }
-        public Image Image { get; private set; }
-        public int Length { get; private set; }
-        public bool Dropdown { get; private set; }
-        public ArDOSItem Alternative { get; private set; }
-        public bool Emojize { get; private set; }
-        public bool Ansi { get; private set; }
-        public bool UseMarkup { get; private set; }
-        public bool Unescape { get; private set; }
-        public IAction[] Actions { get; private set; }
+        /// <summary>
+        /// The text to display
+        /// </summary>
+        public string Text { get; set; }
 
         /// <summary>
-        /// A representation of a single ArDOS item.
+        /// The color of the text
         /// </summary>
-        /// <param name="text">The text to display.</param>
-        /// <param name="color">The color of the text.</param>
-        /// <param name="font">The font of the text.</param>
-        /// <param name="fontSize">The font size for the text. If a font is provided, the fontSize will be ignored.</param>
-        /// <param name="image">The image to view.</param>
-        /// <param name="length">The length at which to truncate the text. 0 means no truncation.</param>
-        /// <param name="trim">Whether to trim whitespaces before the text.</param>
-        /// <param name="dropdown">Whether the item is part of dropdown. Applies only to last items.</param>
-        /// <param name="alternative">The alternative item to view.</param>
-        /// <param name="emojize">Whether to use emojis.</param>
-        /// <param name="ansi">Whether to interpert ANSI escape sequance.</param>
-        /// <param name="useMarkup">Whether to use Pongo markup.</param>
-        /// <param name="unescape">Whether to escape characters.</param>
-        /// <param name="actions">The actions to run when clicking on the item.</param>
-        public ArDOSItem(string text, Color color = new Color(), Font font = null, float fontSize = 12.0f,
-            Image image = null, int length = 0, bool trim = true, bool dropdown = true,
-            ArDOSItem alternative = null, bool emojize = true, bool ansi = true, bool useMarkup = true,
-            bool unescape = true, IAction[] actions = null)
+        public Color Color { get; set; } = Color.Black;
+
+        /// <summary>
+        /// The font of the text
+        /// </summary>
+        public Font Font { get; set; } = new Font("Segoe UI", 11);
+
+        /// <summary>
+        /// The image to view
+        /// </summary>
+        public Image Image { get; set; } = null;
+
+        /// <summary>
+        /// The length at which to truncate the text. 0 means no truncation.
+        /// </summary>
+        public int Length { get; set; } = 0;
+
+        /// <summary>
+        /// Whether the item is part of dropdown. Applies only to last items.
+        /// </summary>
+        public bool Dropdown { get; set; } = true;
+
+        /// <summary>
+        /// The alternative item to view
+        /// </summary>
+        public ArdosItem Alternative { get; set; } = null;
+
+        /// <summary>
+        /// Whether to use emojis
+        /// </summary>
+        public bool Emojize { get; set; } = true;
+
+        /// <summary>
+        /// Whether to interpert ANSI escape sequence
+        /// </summary>
+        public bool Ansi { get; set; } = true;
+
+        /// <summary>
+        /// Whether to use Pongo markup
+        /// </summary>
+        public bool UseMarkup { get; set; } = true;
+
+        /// <summary>
+        /// Whether to escape characters
+        /// </summary>
+        public bool Unescape { get; set; } = true;
+
+        /// <summary>
+        /// The actions to run when clicking on the item
+        /// </summary>
+        public IAction[] Actions { get; set; } = Array.Empty<IAction>();
+
+        /// <summary>
+        /// Create a new ArdosItem
+        /// </summary>
+        /// <param name="text">The text to display</param>
+        /// <param name="trim">Whether to trim whitespaces before the text</param>
+        public ArdosItem(string text, bool trim = true)
         {
-            Text = trim ? text.Trim() : text;
-            Color = (color == Color.Empty) ? Color.Black : color;
-            Font = font ?? new Font("Ariel", fontSize);
-            Image = image;
-            Length = length;
-            Dropdown = dropdown;
-            Alternative = alternative;
-            Emojize = emojize;
-            Ansi = ansi;
-            UseMarkup = useMarkup;
-            Unescape = unescape;
-            Actions = actions ?? Array.Empty<IAction>();
+            this.Text = trim ? text.Trim() : text;
         }
     }
 }

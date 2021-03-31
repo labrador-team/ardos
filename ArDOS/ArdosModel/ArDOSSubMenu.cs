@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ArdosModel
+namespace ArDOS.Model
 {
-    public class ArDOSSubMenu : IArDOSItem
+    public class ArdosSubMenu : ArdosItem
     {
-        public ArDOSItem Item { get; private set; }
-        public IArDOSItem[] MenuItems { get; private set; }
+        public ArdosItem[] MenuItems { get; private set; }
 
         /// <summary>
         /// A representation of an ArDOS sub-menu.
         /// </summary>
         /// <param name="item">The item to display as the menu.</param>
         /// <param name="menuItems">The items of the menu.</param>
-        public ArDOSSubMenu(ArDOSItem item, IArDOSItem[] menuItems = null)
+        public ArdosSubMenu(string text, bool trim = true, ArdosItem[] menuItems = null) : base(text, trim)
         {
-            Item = item;
-            MenuItems = menuItems ?? Array.Empty<IArDOSItem>();
+            MenuItems = menuItems ?? Array.Empty<ArdosItem>();
         }
     }
 }

@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
-namespace ArdosModel
+namespace ArDOS.Model
 {
-    public class ArDOSMenu
+    public class ArdosMenu
     {
         public string Name { get; private set; }
         public Image Icon { get; private set; }
-        public IArDOSItem[] MenuItems { get; private set; }
+        public ArdosItem[] MenuItems { get; private set; }
         
         /// <summary>
         /// A repesentation of an ArDOS main menu.
@@ -19,11 +15,11 @@ namespace ArdosModel
         /// <param name="name">The name of the menu.</param>
         /// <param name="icon">The icon to display for the menu.</param>
         /// <param name="menuItems">The items of the menu.</param>
-        public ArDOSMenu(string name, Image icon, IArDOSItem[] menuItems = null)
+        public ArdosMenu(string name, Image icon = null, ArdosItem[] menuItems = null)
         {
             Name = name;
             Icon = icon;
-            MenuItems = menuItems ?? Array.Empty<IArDOSItem>();
+            MenuItems = menuItems ?? Array.Empty<ArdosItem>();
         }
     }
 }

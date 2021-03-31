@@ -1,32 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ArdosModel
+namespace ArDOS.Model.Actions
 {
-    public class HrefAction : IAction
+    /// <summary>
+    /// Open an href.
+    /// </summary>
+    public abstract class HrefAction : IAction
     {
-        public string ActionType { get; } = "href".ToUpper();
+        public string ActionType => "HREF";
 
-        public string Href { get; private set; }
+        public Uri URI { get; set; }
 
         /// <summary>
         /// Creates an instance of an HrefAction.
         /// </summary>
-        /// <param name="href">The href to open.</param>
-        public HrefAction(string href)
+        /// <param name="uri">The href to open.</param>
+        public HrefAction(Uri uri)
         {
-            Href = href;
+            this.URI = uri;
         }
 
-        /// <summary>
-        /// Open an href.
-        /// </summary>
-        public void Run()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Run();
     }
 }

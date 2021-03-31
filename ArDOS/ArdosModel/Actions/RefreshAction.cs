@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ArdosModel
+﻿namespace ArDOS.Model.Actions
 {
-    public class RefreshAction : IAction
+    public abstract class RefreshAction : IAction
     {
-        public string ActionType { get; } = "refresh".ToUpper();
+        public string ActionType => "REFRESH";
 
         /// <summary>
-        /// Refresh the menu.
+        /// Refresh the menu
         /// </summary>
-        public void Run()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Run();
     }
 }
