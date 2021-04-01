@@ -42,7 +42,7 @@ namespace ArDOS.Runner
             var startInfo = new ProcessStartInfo
             {
                 FileName = executable ?? path,
-                Arguments = executable.Equals(null) ? null : path,
+                Arguments = executable == null ? "" : $"\"{path}\"",
                 RedirectStandardOutput = true,
                 StandardOutputEncoding = this.OutputEncoding,
                 UseShellExecute = false

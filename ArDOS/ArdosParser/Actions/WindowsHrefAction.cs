@@ -12,7 +12,7 @@ namespace ArDOS.Parser.Actions
 
         public override void Run()
         {
-            Process.Start(this.URI.AbsoluteUri);
+            Process.Start("explorer.exe", this.URI.AbsoluteUri);
         }
     }
 }

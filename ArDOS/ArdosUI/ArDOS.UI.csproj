@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ArdosModel\ArDOS.Model.csproj" />
+    <ProjectReference Include="..\ArdosParser\ArDOS.Parser.csproj" />
     <ProjectReference Include="..\ArdosRunner\ArDOS.Runner.csproj" />
   </ItemGroup>
 

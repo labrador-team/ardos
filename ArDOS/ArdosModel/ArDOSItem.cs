@@ -21,7 +21,7 @@ namespace ArDOS.Model
         /// <summary>
         /// The font of the text
         /// </summary>
-        public Font Font { get; set; } = new Font("Segoe UI", 11);
+        public Font Font { get; set; } = new Font("Segoe UI", 9);
 
         /// <summary>
         /// The image to view

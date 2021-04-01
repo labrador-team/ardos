@@ -5,15 +5,21 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using ArDOS.Model;
+using ArDOS.Parser;
+using ArDOS.Runner;
 
 namespace ArDOS.UI
 {
     public partial class MainForm : Form
     {
         public Dictionary<string, NotifyIcon> Plugins { get; protected set; }
+
+        public IScheduler Scheduler { get; set; }
 
         public MainForm()
         {
@@ -25,6 +31,7 @@ namespace ArDOS.UI
 
         protected void SchedulePluginsToRun()
         {
+            Properties.Settings.Default.Reload();
             var info = new DirectoryInfo(Properties.Settings.Default.ExtensionsDirectoryPath);
             var files = info.GetFiles();
             foreach (var fileInfo in files)
@@ -37,7 +44,7 @@ namespace ArDOS.UI
 
                 if (intervalString.Equals(""))
                 {
-                    // Scheduler.Run(fileInfo.FullName);
+                   this.Scheduler.Run(fileInfo.FullName);
                 }
                 else
                 {
@@ -45,7 +52,7 @@ namespace ArDOS.UI
                     if (runOnOpen = intervalString[^1] == '+')
                         intervalString = intervalString[0..^1];
                     if (!int.TryParse(intervalString[0..^1], out int intervalInt)) continue;
-                    TimeSpan interval;
+                    TimeSpan? interval = null;
                     switch (intervalString[^1])
                     {
                         case 's':
@@ -61,15 +68,17 @@ namespace ArDOS.UI
                             interval = TimeSpan.FromDays(intervalInt);
                             break;
                     }
+                    if (!interval.HasValue) continue;
 
-                    // Scheduler.Schedule(fileInfo.FullName, interval);
+                    this.Scheduler.Schedule(fileInfo.FullName, interval.Value);
                 }
             }
         }
 
         protected void StartScheduler()
         {
-
+            this.Scheduler = new DefaultScheduler(new DefaultRunner(Encoding.UTF8));
+            this.Scheduler.Runner.OnOutputReady += Runner_OnOutputReady;
             SchedulePluginsToRun();
         }
 
@@ -79,7 +88,7 @@ namespace ArDOS.UI
             foreach (var pair in this.Plugins) pair.Value.Dispose();
             this.Plugins.Clear();
 
-
+            this.Scheduler.Dispose();
         }
 
         protected void RestartScheduler()
@@ -90,27 +99,73 @@ namespace ArDOS.UI
 
         protected void Runner_OnOutputReady(object sender, RunnerOutputEventArgs e)
         {
-            if (!this.Plugins.TryGetValue(e.Path, out NotifyIcon plugin))
-                plugin = new NotifyIcon();
-            var contextMenuStrip = new ContextMenuStrip();
-            // var menu = Parser.ParsePlugin(e.Output);
-            // Create a new context menu strip
-            plugin.ContextMenuStrip = contextMenuStrip;
-            this.Plugins[e.Path] = plugin;
+            Task.Run(() =>
+            {
+                var menu = WindowsParser.Parse(e.Output);
+                if (!this.Plugins.TryGetValue(e.Path, out NotifyIcon plugin))
+                    plugin = new NotifyIcon(this.components) { Visible = true };
+
+                // Create a new context menu strip
+                var contextMenuStrip = new ContextMenuStrip(this.components);
+                var menuStripItems = PopulateSubmenu(menu.MenuItems, e.Path, this.Scheduler);
+                contextMenuStrip.Items.AddRange(menuStripItems);
+
+                // Assign attrs
+                plugin.ContextMenuStrip = contextMenuStrip;
+                plugin.Text = menu.Name;
+                plugin.Icon = menu.Icon == null ? this.Icon : (Icon)new ImageConverter().ConvertTo(menu.Icon, typeof(Icon));
+                this.Plugins[e.Path] = plugin;
+                Application.Run();
+            });
+        }
+
+        protected ToolStripItem[] PopulateSubmenu(ArdosItem[][] items, string pluginPath, IScheduler scheduler)
+        {
+            var toolStripItems = new List<ToolStripItem>();
+            foreach (var section in items)
+            {
+                foreach (var item in section)
+                {
+                    var toolStripItem = new ToolStripMenuItem(item.Text, item.Image, item.RunItem(pluginPath, scheduler))
+                    {
+                        Font = item.Font,
+                        ForeColor = item.Color
+                    };
+
+                    if (item.Emojize)
+                        foreach (Match match in Regex.Matches(toolStripItem.Text, @":(?<key>\w+):"))
+                            if (WindowsParser.EMOJIS.ContainsKey(match.Groups["key"].Value))
+                                toolStripItem.Text = toolStripItem.Text.Replace(match.Value, WindowsParser.EMOJIS[match.Groups["key"].Value]);
+                    
+                    if (item.Unescape)
+                        foreach (var pair in WindowsParser.CONTROL_CHARS)
+                            toolStripItem.Text = toolStripItem.Text.Replace(pair.Key, pair.Value);
+                    
+                    if (item.GetType() == typeof(ArdosSubMenu))
+                        toolStripItem.DropDownItems.AddRange(PopulateSubmenu(((ArdosSubMenu)item).MenuItems, pluginPath, scheduler));
+                    
+                    toolStripItems.Add(toolStripItem);
+                }
+                toolStripItems.Add(new ToolStripSeparator());
+            }
+            if (toolStripItems.Count > 0) toolStripItems.RemoveAt(toolStripItems.Count - 1);
+            return toolStripItems.ToArray();
         }
 
         private void toolStripMenuItemRefresh_Click(object sender, EventArgs e)
         {
             var info = new DirectoryInfo(Properties.Settings.Default.ExtensionsDirectoryPath);
             var files = info.GetFiles();
-            foreach (var fileInfo in files) ;
-            // Scheduler.Run(fileInfo.FullName);
+            foreach (var fileInfo in files)
+                this.Scheduler.Run(fileInfo.FullName);
         }
 
         #region Winforms event subcribers
         private void notifyIcon_DoubleClick(object sender, EventArgs e)
         {
             new ConfigForm().ShowDialog();
+            Properties.Settings.Default.Reload();
+            this.fileSystemWatcher.Path = Properties.Settings.Default.ExtensionsDirectoryPath;
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
