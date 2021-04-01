@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArDOS.UI", "ArdosUI\ArDOS.UI.csproj", "{96268C46-1631-4608-9599-15A6B26672A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdosModel", "ArdosModel\ArdosModel.csproj", "{DA62D957-1B2E-4FB8-8AEA-E9FA12A29E6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArDOS.Model", "ArdosModel\ArDOS.Model.csproj", "{DA62D957-1B2E-4FB8-8AEA-E9FA12A29E6D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArDOS.Runner", "ArdosRunner\ArDOS.Runner.csproj", "{7501C6E5-F410-475E-9FB5-1990FD31A64F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdosParser", "ArdosParser\ArdosParser.csproj", "{DAE039B0-9C52-4085-AB68-9EDD20DFA83C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArDOS.Parser", "ArdosParser\ArDOS.Parser.csproj", "{DAE039B0-9C52-4085-AB68-9EDD20DFA83C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

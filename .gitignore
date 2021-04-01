@@ -8,6 +8,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Testing App
+ArDOS/TestingApp
+
 # User-specific files
 *.rsuser
 *.suo
@@ -672,3 +675,5 @@ Thumbs.db #thumbnail cache on Windows
 # Fody - auto-generated XML schema
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudio,csharp
+
+ArDOS/TestingApp
