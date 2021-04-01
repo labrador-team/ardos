@@ -11,6 +11,8 @@ namespace ArDOS.Runner
 {
     public class DefaultRunner : IRunner
     {
+        public const string ARDOS_VERSION = "1.0.0";
+
         public event EventHandler<RunnerOutputEventArgs> OnOutputReady;
         public Encoding OutputEncoding { get; protected set; }
 
@@ -45,6 +47,7 @@ namespace ArDOS.Runner
                 StandardOutputEncoding = this.OutputEncoding,
                 UseShellExecute = false
             };
+            startInfo.Environment["ARDOS_VERSION"] = ARDOS_VERSION;
             string output;
             using var process = Process.Start(startInfo);
             output = await process.StandardOutput.ReadToEndAsync();
