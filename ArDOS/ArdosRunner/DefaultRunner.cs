@@ -11,7 +11,7 @@ namespace ArDOS.Runner
 {
     public class DefaultRunner : IRunner
     {
-        public const string ARDOS_VERSION = "ArDOS_v1.0.0";
+        public const string ARDOS_VERSION = "1.0.0";
 
         public event EventHandler<RunnerOutputEventArgs> OnOutputReady;
         public Encoding OutputEncoding { get; protected set; }
