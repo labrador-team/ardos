@@ -19,7 +19,7 @@ namespace ArDOS.Parser
 
             // Parse title
             var titleSection = sections[0];
-            var titleItem = ParseItem(sections[0][0], 0);
+            var titleItem = ParseItem(titleSection[0], 0);
 
             // Parse sections
             var contentSections = sections[1..];
