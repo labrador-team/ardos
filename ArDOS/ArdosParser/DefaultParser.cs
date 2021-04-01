@@ -15,7 +15,7 @@ namespace ArDOS.Parser
         protected const RegexOptions DEFAULT_RE_OPTS = RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace;
         public static ArdosMenu Parse(string input)
         {
-            var sections = Regex.Split(input, @"\n^-*$\n", DEFAULT_RE_OPTS).Select(x => x.Split(new [] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries)).ToArray();
+            var sections = ParseInput(input);
 
             // Parse title
             var titleSection = sections[0];
@@ -28,6 +28,11 @@ namespace ArDOS.Parser
             return new ArdosMenu(titleItem.Text, titleItem.Image, items);
         }
 
+        protected static string[][] ParseInput(string input)
+        {
+            return Regex.Split(input, @"\r?\n^-*$\r?\n", DEFAULT_RE_OPTS).Select(x => x.Split(new[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries)).ToArray();
+        }
+
         protected static ArdosItem[][] ParseSections(string[][] lines)
         {
             return lines.Select(ParseSection).ToArray();
@@ -35,7 +40,7 @@ namespace ArDOS.Parser
 
         protected static ArdosItem[][] ParseSections(string input)
         {
-            return ParseSections(Regex.Split(input, @"\n^-*$\n", DEFAULT_RE_OPTS).Select(x => x.Split(new[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries)).ToArray());
+            return ParseSections(ParseInput(input));
         }
 
         protected static ArdosItem[] ParseSection(string[] lines)
