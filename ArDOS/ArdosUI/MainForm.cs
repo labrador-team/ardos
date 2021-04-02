@@ -103,18 +103,23 @@ namespace ArDOS.UI
             {
                 var menu = WindowsParser.Parse(e.Output);
                 if (!this.Plugins.TryGetValue(e.Path, out NotifyIcon plugin))
-                    plugin = new NotifyIcon(this.components) { Visible = true };
+                    plugin = new NotifyIcon(this.components)
+                    {
+                        Visible = true,
+                        ContextMenuStrip = new ContextMenuStrip(this.components),
+                    };
 
-                // Create a new context menu strip
-                var contextMenuStrip = new ContextMenuStrip(this.components);
-                var menuStripItems = PopulateSubmenu(menu.MenuItems, e.Path, this.Scheduler);
-                contextMenuStrip.Items.AddRange(menuStripItems);
-
-                // Assign attrs
-                plugin.ContextMenuStrip = contextMenuStrip;
+                // Assign attrs to plugin
                 plugin.Text = menu.Name;
-                plugin.Icon = menu.Icon == null ? this.Icon : (Icon)new ImageConverter().ConvertTo(menu.Icon, typeof(Icon));
+                plugin.Icon = menu.Icon == null ? this.Icon : menu.Icon.ToIcon();
+
+                // Populate context menu strip
+                plugin.ContextMenuStrip.Items.Clear();
+                plugin.ContextMenuStrip.Items.AddRange(PopulateSubmenu(menu.MenuItems, e.Path, this.Scheduler));
+
+                // Assign plugin to dictionary
                 this.Plugins[e.Path] = plugin;
+
                 Application.Run();
             });
         }

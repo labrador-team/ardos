@@ -6,6 +6,22 @@
     <OutputType>Library</OutputType>
     <AssemblyName>ArDOS.Model</AssemblyName>
     <RootNamespace>ArDOS.Model</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Product>ardoslib.model</Product>
+    <Company>Apollo 11</Company>
+    <Authors>Hadar Gotshal &amp; Dor Genosar</Authors>
+    <Version>0.1.0</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/dorg188/ardos</RepositoryUrl>
+    <NeutralLanguage>English (United States)</NeutralLanguage>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
