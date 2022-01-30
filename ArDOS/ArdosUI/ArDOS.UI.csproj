@@ -6,8 +6,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>Resources\ArdosIcon.ico</ApplicationIcon>
     <Version>0.1.0</Version>
-    <Authors>Hadar Gotshal &amp; Dor Genosar</Authors>
-    <Company>Apollo 11</Company>
+    <Authors>Labrador Group</Authors>
+    <Company></Company>
     <Product>ArDOS</Product>
     <Description>A replica of Argos (which is a replica of BitBar), but for windows</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>

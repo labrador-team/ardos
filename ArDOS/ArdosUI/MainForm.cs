@@ -21,12 +21,17 @@ namespace ArDOS.UI
 
         public IScheduler Scheduler { get; set; }
 
+        public bool Running { get; set; } = false;
+
         public MainForm()
         {
             InitializeComponent();
             this.Plugins = new Dictionary<string, NotifyIcon>();
-            this.fileSystemWatcher.Path = Properties.Settings.Default.ExtensionsDirectoryPath;
-            this.StartScheduler();
+            if (new DirectoryInfo(Properties.Settings.Default.ExtensionsDirectoryPath).Exists)
+            {
+                this.fileSystemWatcher.Path = Properties.Settings.Default.ExtensionsDirectoryPath;
+                this.StartScheduler();
+            }
         }
 
         protected void SchedulePluginsToRun()
@@ -77,18 +82,26 @@ namespace ArDOS.UI
 
         protected void StartScheduler()
         {
-            this.Scheduler = new DefaultScheduler(new DefaultRunner(Encoding.UTF8));
-            this.Scheduler.Runner.OnOutputReady += Runner_OnOutputReady;
-            SchedulePluginsToRun();
+            if (!this.Running)
+            {
+                this.Scheduler = new DefaultScheduler(new DefaultRunner(Encoding.UTF8));
+                this.Scheduler.Runner.OnOutputReady += Runner_OnOutputReady;
+                SchedulePluginsToRun();
+                this.Running = true;
+            }
         }
 
         protected void StopScheduler()
         {
-            // Close all notify icons
-            foreach (var pair in this.Plugins) pair.Value.Dispose();
-            this.Plugins.Clear();
+            if (this.Running)
+            {
+                // Close all notify icons
+                foreach (var pair in this.Plugins) pair.Value.Dispose();
+                this.Plugins.Clear();
 
-            this.Scheduler.Dispose();
+                this.Scheduler.Dispose();
+                this.Running = false;
+            }
         }
 
         protected void RestartScheduler()
@@ -171,6 +184,7 @@ namespace ArDOS.UI
             new ConfigForm().ShowDialog();
             Properties.Settings.Default.Reload();
             this.fileSystemWatcher.Path = Properties.Settings.Default.ExtensionsDirectoryPath;
+            RestartScheduler();
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
