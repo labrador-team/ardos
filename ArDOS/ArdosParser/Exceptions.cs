@@ -11,4 +11,9 @@ namespace ArDOS.Parser.Exceptions
     {
         public ParsingException(int lineNumber, string message, Exception innerException = null) : base($"Parsing error on line {lineNumber}: {message}", innerException) { }
     }
+
+    public class EmptyInputException : BaseParserException
+    {
+        public EmptyInputException() { }
+    }
 }

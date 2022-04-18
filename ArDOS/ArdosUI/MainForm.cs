@@ -13,7 +13,6 @@ using ArDOS.Model;
 using ArDOS.Parser;
 using ArDOS.Runner;
 using ArDOS.Parser.Exceptions;
-using ArDOS.Runner.Exceptions;
 
 namespace ArDOS.UI
 {
@@ -122,11 +121,6 @@ namespace ArDOS.UI
                     try
                     {
                         menu = WindowsParser.Parse(e.Output);
-                    }
-                    catch (BaseRunnerException ex)
-                    {
-                        MessageBox.Show($"Runner Error: {ex.Message}");
-                        return;
                     }
                     catch (BaseParserException ex)
                     {

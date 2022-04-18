@@ -15,6 +15,8 @@ namespace ArDOS.Parser
         protected const RegexOptions DEFAULT_RE_OPTS = RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace;
         public static ArdosMenu Parse(string input)
         {
+            if (input == string.Empty) throw new EmptyInputException();
+
             var sections = ParseInput(input);
 
             // Parse title
