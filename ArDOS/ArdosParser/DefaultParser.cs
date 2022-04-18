@@ -70,7 +70,7 @@ namespace ArDOS.Parser
                     }
                     catch (FormatException e)
                     {
-                        throw new ParsingException(i, e.Message);
+                        throw new ParsingException(i, e.Message, e);
                     }
                 }
             }
@@ -111,7 +111,7 @@ namespace ArDOS.Parser
             }
             catch (FormatException e)
             {
-                throw new ParsingException(lineNumber, e.Message);
+                throw new ParsingException(lineNumber, e.Message, e);
             }
 
             // Set Actions

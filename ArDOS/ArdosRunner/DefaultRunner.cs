@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
+using ArDOS.Runner.Exceptions;
 
 namespace ArDOS.Runner
 {
@@ -45,12 +46,15 @@ namespace ArDOS.Runner
                 Arguments = executable == null ? "" : $"\"{path}\"",
                 RedirectStandardOutput = true,
                 StandardOutputEncoding = this.OutputEncoding,
-                UseShellExecute = false
+                UseShellExecute = false,
+                CreateNoWindow = true
             };
             startInfo.Environment["ARDOS_VERSION"] = ARDOS_VERSION;
             string output;
             using var process = Process.Start(startInfo);
             output = await process.StandardOutput.ReadToEndAsync();
+
+            if (output == string.Empty) throw new EmptyOutputException(path);
 
             // Trigger the event with the given output
             OnOutputReady(null, new RunnerOutputEventArgs { Path = path, Output = output });

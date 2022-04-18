@@ -12,6 +12,8 @@ using System.IO;
 using ArDOS.Model;
 using ArDOS.Parser;
 using ArDOS.Runner;
+using ArDOS.Parser.Exceptions;
+using ArDOS.Runner.Exceptions;
 
 namespace ArDOS.UI
 {
@@ -114,25 +116,42 @@ namespace ArDOS.UI
         {
             Task.Run(() =>
             {
-                var menu = WindowsParser.Parse(e.Output);
-                if (!this.Plugins.TryGetValue(e.Path, out NotifyIcon plugin))
-                    plugin = new NotifyIcon(this.components)
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    ArdosMenu menu;
+                    try
                     {
-                        Visible = true,
-                        ContextMenuStrip = new ContextMenuStrip(this.components),
-                    };
+                        menu = WindowsParser.Parse(e.Output);
+                    }
+                    catch (BaseRunnerException ex)
+                    {
+                        MessageBox.Show($"Runner Error: {ex.Message}");
+                        return;
+                    }
+                    catch (BaseParserException ex)
+                    {
+                        MessageBox.Show($"Parser Error: {ex.Message}");
+                        return;
+                    }
+                    
+                    if (!this.Plugins.TryGetValue(e.Path, out NotifyIcon plugin))
+                        plugin = new NotifyIcon(this.components)
+                        {
+                            Visible = true,
+                            ContextMenuStrip = new ContextMenuStrip(this.components),
+                        };
 
-                // Assign attrs to plugin
-                plugin.Text = menu.Name;
-                plugin.Icon = menu.Icon == null ? this.Icon : menu.Icon.ToIcon();
+                    // Assign attrs to plugin
+                    plugin.Text = menu.Name;
+                    plugin.Icon = menu.Icon == null ? this.Icon : menu.Icon.ToIcon();
 
-                // Populate context menu strip
-                plugin.ContextMenuStrip.Items.Clear();
-                plugin.ContextMenuStrip.Items.AddRange(PopulateSubmenu(menu.MenuItems, e.Path, this.Scheduler));
+                    // Populate context menu strip
+                    plugin.ContextMenuStrip.Items.Clear();
+                    plugin.ContextMenuStrip.Items.AddRange(PopulateSubmenu(menu.MenuItems, e.Path, this.Scheduler));
 
-                // Assign plugin to dictionary
-                this.Plugins[e.Path] = plugin;
-
+                    // Assign plugin to dictionary
+                    this.Plugins[e.Path] = plugin;
+                }));
                 Application.Run();
             });
         }

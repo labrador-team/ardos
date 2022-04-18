@@ -2,8 +2,13 @@
 
 namespace ArDOS.Parser.Exceptions
 {
-    public class ParsingException : FormatException
+    public class BaseParserException : Exception
     {
-        public ParsingException(int lineNumber, string message) : base($"Parsing error on line {lineNumber}: {message}") { }
+        public BaseParserException(string message = null, Exception innerException = null) : base(message, innerException) { }
+    }
+
+    public class ParsingException : BaseParserException
+    {
+        public ParsingException(int lineNumber, string message, Exception innerException = null) : base($"Parsing error on line {lineNumber}: {message}", innerException) { }
     }
 }
