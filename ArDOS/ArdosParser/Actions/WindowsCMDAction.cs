@@ -15,7 +15,7 @@ namespace ArDOS.Parser.Actions
             var startInfo = new ProcessStartInfo
             {
                 FileName = "cmd.exe",
-                Arguments = $"/{(this.Terminal ? 'k' : 'c')} {this.FullCommand}",
+                Arguments = $"/{(this.Terminal ? 'k' : 'c')} \"{this.FullCommand}\"",
                 UseShellExecute = true,
                 CreateNoWindow = !this.Terminal,
                 WindowStyle = this.Terminal ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden

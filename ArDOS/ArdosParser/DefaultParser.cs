@@ -15,6 +15,8 @@ namespace ArDOS.Parser
         protected const RegexOptions DEFAULT_RE_OPTS = RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace;
         public static ArdosMenu Parse(string input)
         {
+            if (input == string.Empty) throw new EmptyInputException();
+
             var sections = ParseInput(input);
 
             // Parse title
@@ -30,7 +32,7 @@ namespace ArDOS.Parser
 
         protected static string[][] ParseInput(string input)
         {
-            return Regex.Split(input, @"\r?\n^-*$\r?\n", DEFAULT_RE_OPTS).Select(x => x.Split(new[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries)).ToArray();
+            return Regex.Split(input, @"\r?\n-*\r?\n", DEFAULT_RE_OPTS).Select(x => x.Split(new[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries)).ToArray();
         }
 
         protected static ArdosItem[][] ParseSections(string[][] lines)
@@ -70,7 +72,7 @@ namespace ArDOS.Parser
                     }
                     catch (FormatException e)
                     {
-                        throw new ParsingException(i, e.Message);
+                        throw new ParsingException(i, e.Message, e);
                     }
                 }
             }
@@ -100,7 +102,7 @@ namespace ArDOS.Parser
                     Dropdown = !attrs.ContainsKey("dropdown") || bool.Parse(attrs["dropdown"]),
                     Emojize = !attrs.ContainsKey("emojize") || bool.Parse(attrs["emojize"]),
                     Font = new Font(attrs.ContainsKey("font") ? attrs["font"] : "Segoe UI",
-                                                attrs.ContainsKey("size") ? float.Parse(attrs["size"]) : 11),
+                                                attrs.ContainsKey("size") ? float.Parse(attrs["size"]) : 9),
                     Image = attrs.ContainsKey(key = "image") || attrs.ContainsKey(key = "templateImage") ? Image.FromStream(new MemoryStream(Convert.FromBase64String(attrs[key]))) : null,
                     Length = attrs.ContainsKey("length") ? int.Parse(attrs["length"]) : 0,
                     Unescape = !attrs.ContainsKey("unescape") || bool.Parse(attrs["unescape"]),
@@ -111,7 +113,7 @@ namespace ArDOS.Parser
             }
             catch (FormatException e)
             {
-                throw new ParsingException(lineNumber, e.Message);
+                throw new ParsingException(lineNumber, e.Message, e);
             }
 
             // Set Actions

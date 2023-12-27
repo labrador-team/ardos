@@ -5,6 +5,23 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>ArDOS.Runner</AssemblyName>
     <RootNamespace>ArDOS.Runner</RootNamespace>
+    <Version>0.1.0</Version>
+    <Authors>Hadar Gotshal &amp; Dor Genosar</Authors>
+    <Company>Apollo 11</Company>
+    <Product>ardoslib.runner</Product>
+    <Description>The runner library for ArDOS</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/dorg188/ardos</RepositoryUrl>
+    <NeutralLanguage>English (United States)</NeutralLanguage>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
